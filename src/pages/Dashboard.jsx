@@ -306,7 +306,7 @@ export default function Dashboard() {
                     <td className="px-8 py-6"><StatusBadge status={trx.status} /></td>
                     <td className="px-8 py-6">
                       <div className="flex items-center justify-center gap-2" onClick={(e) => e.stopPropagation()}>
-                        {trx.status === 'PENDING' ? (
+                         {trx.status === 'PENDING' ? (
                           <>
                             <button 
                               onClick={() => handleSimulateCallback(trx.referenceNumber, 'Success', trx.amount, trx.merchantName)} 
@@ -316,9 +316,16 @@ export default function Dashboard() {
                               <Check size={18}/>
                             </button>
                             <button 
+                              onClick={() => handleSimulateCallback(trx.referenceNumber, 'Cancelled', trx.amount, trx.merchantName)} 
+                              title="Simulate Cancel" 
+                              className="w-10 h-10 bg-red-50 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                            >
+                              <X size={18}/>
+                            </button>
+                            <button 
                               onClick={() => handleSimulateCallback(trx.referenceNumber, 'Failed', trx.amount, trx.merchantName)} 
                               title="Simulate Failure" 
-                              className="w-10 h-10 bg-red-50 text-red-700 rounded-xl flex items-center justify-center hover:bg-red-700 hover:text-white transition-all shadow-sm"
+                              className="w-10 h-10 bg-slate-100 text-slate-700 rounded-xl flex items-center justify-center hover:bg-slate-700 hover:text-white transition-all shadow-sm"
                             >
                               <AlertTriangle size={18}/>
                             </button>
