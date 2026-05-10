@@ -128,7 +128,6 @@ export default function Dashboard() {
         amount: { value: simAmount, currency: "IDR" },
         paymentMethod: "QR",
         merchantName: merchantName,
-        customerUserNo: "CUST-" + Math.floor(Math.random() * 100000),
         mpan: "ID-MPAN-" + Math.floor(Math.random() * 1000000),
         callbackUrl: "http://localhost:5173/callback-test"
       }, { headers: { 'X-Signature': signature } });
