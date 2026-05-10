@@ -1,16 +1,61 @@
-# React + Vite
+# Manjo Merchant Dashboard (Frontend) 🎨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-19-61DAFB.svg)
+![Vite](https://img.shields.io/badge/Vite-6-646CFF.svg)
+![Tailwind](https://img.shields.io/badge/Tailwind-4-38B2AC.svg)
 
-Currently, two official plugins are available:
+Dashboard Merchant premium milik **PT Manjo Teknologi Indonesia**. Aplikasi ini berfungsi sebagai pusat monitoring transaksi sekaligus alat simulasi pembayaran QRIS secara interaktif.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Fitur Utama
 
-## React Compiler
+- **Real-time Dashboard**: Pantau total transaksi, MDR revenue, dan volume secara real-time.
+- **Transaction Table**: Daftar transaksi lengkap dengan status (Success, Pending, Cancelled, Expired).
+- **Payment Simulator**: Simulasi pembayaran langsung dari dashboard:
+    - **BAYAR**: Simulasi pembayaran sukses.
+    - **BATAL**: Simulasi pembatalan oleh pengguna.
+    - **GAGAL**: Simulasi kegagalan sistem.
+- **QR Generator**: Inisialisasi transaksi baru dengan modal elegan.
+- **Responsive Design**: UI premium dengan Dark Mode support dan animasi smooth menggunakan Tailwind CSS.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: React 19 (Vite)
+- **Styling**: Tailwind CSS 4
+- **Charts**: Recharts
+- **Icons**: Lucide React
+- **API Client**: Axios
+- **Crypto**: CryptoJS (untuk validasi HMAC Signature)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Instalasi & Persiapan
+
+### 1. Prasyarat
+- **Node.js** 18+ (disarankan v20+).
+- **npm** atau **yarn**.
+
+### 2. Konfigurasi API
+Pastikan backend sudah berjalan di port `8080`. Konfigurasi API dapat ditemukan di `src/api/axios.js`.
+
+### 3. Menjalankan Aplikasi
+Clone repository ini dan jalankan perintah:
+```bash
+npm install
+npm run dev
+```
+Aplikasi akan berjalan di: `http://localhost:5173`
+
+## 🔗 Hubungan dengan Backend
+
+Frontend ini membutuhkan **Manjo Payment Gateway Backend** untuk memproses data.
+- **Repo Backend**: [manjo-payment-gateway](https://github.com/fazrideffara/manjo-payment-gateway)
+- **API Base URL**: `http://localhost:8080/api`
+- **Secret Key HMAC**: `MANJO-SECRET-KEY-2025-PAYMENT-GATEWAY` (Harus sama di kedua sisi).
+
+## 🧩 Cara Kerja Simulasi
+
+1. Klik tombol **"Generate QR"** di pojok kanan atas.
+2. Masukkan nama merchant dan nominal, lalu klik **"Generate QR"**.
+3. Di dalam modal QR, klik salah satu tombol simulasi (**BAYAR**, **BATAL**, atau **GAGAL**).
+4. Status pada tabel akan terupdate secara otomatis melalui mekanisme webhook/callback ke backend.
+
+---
+© 2026 PT Manjo Teknologi Indonesia. All Rights Reserved.
