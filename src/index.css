@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-manjo-green: #22c55e;
+  --color-manjo-navy: #0f172a;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  color: #1e293b;
+  background-color: #f8fafc;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+@layer components {
+  .btn-primary {
+    /* Tailwind v4 menggunakan syntax /90 untuk opacity */
+    @apply bg-manjo-green text-white px-4 py-2 rounded-lg hover:bg-manjo-green/90 transition-all font-medium;
+  }
+}
