@@ -402,12 +402,15 @@ export default function Dashboard() {
                     <p className="text-2xl font-black text-slate-900">Rp {parseInt(generatedQr.amount?.value || simAmount).toLocaleString()}</p>
                     <p className="text-xs font-bold text-manjo-green">REF: {generatedQr.referenceNo}</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 w-full">
-                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Success", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-manjo-green text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-green-600 transition-all">
-                      <Check size={20}/> BAYAR
+                  <div className="grid grid-cols-3 gap-3 w-full">
+                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Success", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-manjo-green text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-green-600 transition-all text-sm">
+                      <Check size={18}/> BAYAR
                     </button>
-                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Failed", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-red-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-red-600 transition-all">
-                      <AlertTriangle size={20}/> GAGAL
+                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Cancelled", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-red-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-red-600 transition-all text-sm">
+                      <X size={18}/> BATAL
+                    </button>
+                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Failed", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-slate-700 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-slate-800 transition-all text-sm">
+                      <AlertTriangle size={18}/> GAGAL
                     </button>
                   </div>
                 </div>
