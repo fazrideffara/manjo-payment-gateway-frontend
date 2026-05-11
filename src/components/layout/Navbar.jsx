@@ -110,8 +110,12 @@ export default function Navbar() {
             onClick={() => navigate('/profile')}
           >
             <div className="flex flex-col items-end group-hover:opacity-70 transition-opacity">
-              <span className="text-[11px] font-black text-slate-900 leading-none tracking-tight">SUPERADMIN</span>
-              <span className="text-[9px] font-bold text-manjo-green uppercase tracking-widest mt-1">ADMINISTRATOR</span>
+              <span className="text-[11px] font-black text-slate-900 leading-none tracking-tight">
+                {localStorage.getItem('userName') || 'SUPERADMIN'}
+              </span>
+              <span className="text-[9px] font-bold text-manjo-green uppercase tracking-widest mt-1">
+                {localStorage.getItem('userRole') || 'ADMINISTRATOR'}
+              </span>
             </div>
             <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 border-2 border-white shadow-sm group-hover:ring-2 group-hover:ring-manjo-green transition-all">
               <User size={20} />

@@ -70,26 +70,12 @@ export default function Dashboard() {
     showNotification("Dashboard diperbarui", "success", "Data transaksi terbaru telah dimuat.", false);
   };
 
-  const handleCancelTransaction = async (refNo, mName) => {
-    if (!window.confirm("Yakin ingin membatalkan transaksi ini?")) return;
-    try {
-      setLoading(true);
-      await api.post(`/v1/admin/transactions/${refNo}/cancel`);
-      showNotification("Transaksi Dibatalkan", "warning", `Transaksi ${mName} telah dibatalkan oleh Admin.`);
-      await handleFullRefresh();
-    } catch (error) {
-      showNotification("Gagal membatalkan", "error", "Terjadi kesalahan sistem.", false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSimulateCallback = async (refNo, status, amount, mName) => {
     try {
       setLoading(true);
       const payload = refNo + amount + status;
       const signature = await generateHmac(payload);
-      await api.post('/v1/payment/callback', {
+      await api.post('/v1/qr/payment', {
         originalReferenceNo: refNo,
         originalPartnerReferenceNo: "PARTNER-" + refNo,
         transactionStatusDesc: status,
@@ -122,7 +108,7 @@ export default function Dashboard() {
       const payload = merchantId + simAmount + partnerRef;
       const signature = await generateHmac(payload);
 
-      const response = await api.post('/v1/payment/create', {
+      const response = await api.post('/v1/qr/generate', {
         merchantId: merchantId,
         partnerReferenceNo: partnerRef,
         amount: { value: simAmount, currency: "IDR" },
@@ -168,7 +154,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#f8fafc] p-6 lg:p-10 space-y-8 font-sans text-slate-800 relative">
       
-      {/* Shared Toast Component */}
       {toast && (
         <Toast 
           message={toast.message} 
@@ -178,7 +163,6 @@ export default function Dashboard() {
         />
       )}
 
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Payment Gateway</h1>
@@ -201,7 +185,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard icon={<Wallet className="text-white"/>} bg="bg-manjo-green" label="Gross Revenue" value={stats?.totalRevenue || "Rp 0"} trend="Live" />
         <StatCard icon={<Activity className="text-manjo-green"/>} bg="bg-white" label="Active Trx" value={stats?.activeTransactions || "0"} trend="Pending" />
@@ -210,7 +193,6 @@ export default function Dashboard() {
       </div>
 
       <div className="space-y-6">
-        {/* Search & Filter */}
         <div className="flex flex-col md:flex-row items-center gap-4 bg-white p-2 rounded-3xl border border-slate-100 shadow-sm w-full">
           <div className="flex-1 w-full relative group">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
@@ -230,7 +212,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Table */}
         <div className="bg-white rounded-[2.5rem] shadow-xl border border-white overflow-hidden">
           <div className="p-8 border-b border-slate-50 flex justify-between items-center">
             <h2 className="text-xl font-black text-slate-900">Transaction Records</h2>
@@ -308,21 +289,21 @@ export default function Dashboard() {
                          {trx.status === 'PENDING' ? (
                           <>
                             <button 
-                              onClick={() => handleSimulateCallback(trx.referenceNumber, 'Success', trx.amount, trx.merchantName)} 
+                              onClick={() => handleSimulateCallback(trx.referenceNumber, 'SUCCESS', trx.amount, trx.merchantName)} 
                               title="Simulate Success" 
                               className="w-10 h-10 bg-green-50 text-manjo-green rounded-xl flex items-center justify-center hover:bg-manjo-green hover:text-white transition-all shadow-sm"
                             >
                               <Check size={18}/>
                             </button>
                             <button 
-                              onClick={() => handleSimulateCallback(trx.referenceNumber, 'Cancelled', trx.amount, trx.merchantName)} 
+                              onClick={() => handleSimulateCallback(trx.referenceNumber, 'CANCELLED', trx.amount, trx.merchantName)} 
                               title="Simulate Cancel" 
                               className="w-10 h-10 bg-red-50 text-red-500 rounded-xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm"
                             >
                               <X size={18}/>
                             </button>
                             <button 
-                              onClick={() => handleSimulateCallback(trx.referenceNumber, 'Failed', trx.amount, trx.merchantName)} 
+                              onClick={() => handleSimulateCallback(trx.referenceNumber, 'FAILED', trx.amount, trx.merchantName)} 
                               title="Simulate Failure" 
                               className="w-10 h-10 bg-slate-100 text-slate-700 rounded-xl flex items-center justify-center hover:bg-slate-700 hover:text-white transition-all shadow-sm"
                             >
@@ -340,7 +321,6 @@ export default function Dashboard() {
             </table>
           </div>
           
-          {/* Pagination */}
           {data && data.totalPages > 1 && (
             <div className="p-8 bg-slate-50/50 flex items-center justify-between border-t border-slate-50">
                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -409,13 +389,13 @@ export default function Dashboard() {
                     <p className="text-xs font-bold text-manjo-green">REF: {generatedQr.referenceNo}</p>
                   </div>
                   <div className="grid grid-cols-3 gap-3 w-full">
-                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Success", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-manjo-green text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-green-600 transition-all text-sm">
+                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "SUCCESS", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-manjo-green text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-green-600 transition-all text-sm">
                       <Check size={18}/> BAYAR
                     </button>
-                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Cancelled", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-red-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-red-600 transition-all text-sm">
+                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "CANCELLED", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-red-500 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-red-600 transition-all text-sm">
                       <X size={18}/> BATAL
                     </button>
-                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "Failed", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-slate-700 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-slate-800 transition-all text-sm">
+                    <button onClick={() => handleSimulateCallback(generatedQr.referenceNo, "FAILED", generatedQr.amount?.value || simAmount, merchantName)} disabled={loading} className="bg-slate-700 text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg hover:bg-slate-800 transition-all text-sm">
                       <AlertTriangle size={18}/> GAGAL
                     </button>
                   </div>

@@ -38,6 +38,7 @@ export default function Login() {
       localStorage.setItem('userName', response.data.name || 'Admin Manjo');
       localStorage.setItem('userRole', response.data.role);
       localStorage.setItem('userEmail', response.data.email || 'admin@manjo.id');
+      localStorage.setItem('userUsername', username);
       
       setShowToast(true);
       setTimeout(() => navigate('/'), 1500);

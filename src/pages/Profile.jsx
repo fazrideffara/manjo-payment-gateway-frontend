@@ -10,7 +10,7 @@ export default function Profile() {
   
   const [formData, setFormData] = useState({
     name: localStorage.getItem('userName') || '',
-    username: 'admin', // Ini idealnya didapat dari API getProfile
+    username: localStorage.getItem('userUsername') || 'admin', 
     email: localStorage.getItem('userEmail') || 'admin@manjo.id'
   });
 
@@ -21,8 +21,7 @@ export default function Profile() {
     
     try {
       await transactionApi.updateProfile({
-        name: formData.name,
-        username: formData.username
+        name: formData.name
       });
       localStorage.setItem('userName', formData.name);
       setSuccess(true);
@@ -84,12 +83,12 @@ export default function Profile() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase text-slate-400 ml-2 tracking-widest">Username</label>
                   <div className="relative group">
-                    <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-manjo-green transition-colors" size={18} />
+                    <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
                       type="text" 
                       value={formData.username}
-                      onChange={(e) => setFormData({...formData, username: e.target.value})}
-                      className="w-full pl-12 pr-6 py-4 bg-slate-50 border border-transparent rounded-2xl focus:bg-white focus:border-manjo-green focus:ring-4 ring-manjo-green/10 outline-none transition-all font-bold"
+                      disabled
+                      className="w-full pl-12 pr-6 py-4 bg-slate-100 border border-transparent rounded-2xl text-slate-400 font-bold cursor-not-allowed"
                     />
                   </div>
                 </div>
