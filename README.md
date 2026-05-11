@@ -4,58 +4,62 @@
 ![Vite](https://img.shields.io/badge/Vite-6-646CFF.svg)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4-38B2AC.svg)
 
-Dashboard Merchant premium milik **PT Manjo Teknologi Indonesia**. Aplikasi ini berfungsi sebagai pusat monitoring transaksi sekaligus alat simulasi pembayaran QRIS secara interaktif.
+Dashboard Merchant premium milik **PT Manjo Teknologi Indonesia**. Aplikasi ini berfungsi sebagai pusat monitoring transaksi sekaligus alat simulasi pembayaran QRIS secara interaktif yang terintegrasi dengan Payment Gateway.
 
 ## ✨ Fitur Utama
 
-- **Real-time Dashboard**: Pantau total transaksi, MDR revenue, dan volume secara real-time.
-- **Transaction Table**: Daftar transaksi lengkap dengan status (Success, Pending, Cancelled, Expired).
-- **Payment Simulator**: Simulasi pembayaran langsung dari dashboard:
-    - **BAYAR**: Simulasi pembayaran sukses.
-    - **BATAL**: Simulasi pembatalan oleh pengguna.
-    - **GAGAL**: Simulasi kegagalan sistem.
-- **QR Generator**: Inisialisasi transaksi baru dengan modal elegan.
-- **Responsive Design**: UI premium dengan Dark Mode support dan animasi smooth menggunakan Tailwind CSS.
+- **Real-time Stats**: Pantau total revenue, success rate, dan settlement volume secara real-time.
+- **Transaction Monitoring**: Tabel transaksi interaktif dengan filter status dan pagination.
+- **Payment Simulator (Modal QR)**: Simulasi siklus hidup transaksi QRIS:
+    - **BAYAR**: Simulasi notifikasi sukses dari switching/bank.
+    - **BATAL**: Simulasi pembatalan transaksi oleh user di aplikasi scanner.
+    - **GAGAL**: Simulasi kesalahan sistem/timeout.
+- **Dynamic QR Generator**: Inisialisasi transaksi baru langsung dari dashboard.
+- **Profile Management**: Pengaturan nama merchant yang tersinkronisasi ke sistem.
+- **Premium UI**: Desain modern menggunakan Tailwind CSS 4 dengan animasi halus dan responsivitas penuh.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: React 19 (Vite)
+- **Framework**: React 19 (Vite 6)
 - **Styling**: Tailwind CSS 4
-- **Charts**: Recharts
+- **Charts**: Recharts (Dashboard Analytics)
 - **Icons**: Lucide React
-- **API Client**: Axios
-- **Crypto**: CryptoJS (untuk validasi HMAC Signature)
+- **API Client**: Axios (dengan Interceptors untuk JWT)
+- **Security**: Web Crypto API (HMAC-SHA256 signature generation)
 
 ## 🚀 Instalasi & Persiapan
 
 ### 1. Prasyarat
-- **Node.js** 18+ (disarankan v20+).
-- **npm** atau **yarn**.
+- **Node.js** 20+ installed.
+- **npm** or **yarn**.
 
-### 2. Konfigurasi API
-Pastikan backend sudah berjalan di port `8080`. Konfigurasi API dapat ditemukan di `src/api/axios.js`.
+### 2. Konfigurasi
+Pastikan backend sudah berjalan. Jika menggunakan port default:
+- **Backend URL**: `http://localhost:8080`
+- **Secret Key HMAC**: `MANJO-SECRET-KEY-2026-PAYMENT-GATEWAY` (Harus sinkron dengan backend).
 
 ### 3. Menjalankan Aplikasi
-Clone repository ini dan jalankan perintah:
 ```bash
 npm install
 npm run dev
 ```
-Aplikasi akan berjalan di: `http://localhost:5173`
+Aplikasi berjalan di: `http://localhost:5173`
 
 ## 🔗 Hubungan dengan Backend
 
-Frontend ini membutuhkan **Manjo Payment Gateway Backend** untuk memproses data.
+Frontend ini berkomunikasi secara intensif dengan **Manjo Payment Gateway Backend**.
 - **Repo Backend**: [manjo-payment-gateway](https://github.com/fazrideffara/manjo-payment-gateway)
-- **API Base URL**: `http://localhost:8080/api`
-- **Secret Key HMAC**: `MANJO-SECRET-KEY-2025-PAYMENT-GATEWAY` (Harus sama di kedua sisi).
+- **Auth**: Menggunakan JWT untuk akses menu Profile dan Admin Statistics.
+- **Signature**: Setiap pembuatan QR menyertakan header `X-Signature` yang divalidasi oleh backend.
 
-## 🧩 Cara Kerja Simulasi
+## 🧩 Flow Simulasi Pembayaran
 
-1. Klik tombol **"Generate QR"** di pojok kanan atas.
-2. Masukkan nama merchant dan nominal, lalu klik **"Generate QR"**.
-3. Di dalam modal QR, klik salah satu tombol simulasi (**BAYAR**, **BATAL**, atau **GAGAL**).
-4. Status pada tabel akan terupdate secara otomatis melalui mekanisme webhook/callback ke backend.
+1. Klik **"Generate QR"** di dashboard.
+2. Masukkan detail transaksi dan klik **Generate**.
+3. Dashboard akan mengirim request ke `/v1/qr/generate` dengan Signature.
+4. Modal QR akan muncul. Klik salah satu tombol simulasi (**BAYAR/BATAL/GAGAL**).
+5. Frontend mengirim "Simulasi Webhook" ke backend.
+6. Backend memproses status dan tabel di dashboard akan terupdate otomatis.
 
 ---
 © 2026 PT Manjo Teknologi Indonesia. All Rights Reserved.
