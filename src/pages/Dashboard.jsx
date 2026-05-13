@@ -56,7 +56,7 @@ export default function Dashboard() {
       const searchStr = searchQuery.toLowerCase();
       return (
         trx.referenceNumber?.toLowerCase().includes(searchStr) || 
-        trx.trxId?.toLowerCase().includes(searchStr) ||
+        trx.partnerReferenceNumber?.toLowerCase().includes(searchStr) ||
         trx.merchantId?.toLowerCase().includes(searchStr) ||
         trx.merchantName?.toLowerCase().includes(searchStr)
       );
@@ -252,7 +252,7 @@ export default function Dashboard() {
                       <div className="grid grid-cols-1 gap-1">
                         <div className="flex items-center gap-3">
                           <span className="text-[9px] font-black text-slate-300 uppercase w-12">TRX ID</span>
-                          <span className="text-xs font-black text-slate-700">{trx.trxId}</span>
+                          <span className="text-xs font-black text-slate-700">{trx.partnerReferenceNumber}</span>
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="text-[9px] font-black text-slate-300 uppercase w-12">REF NO</span>
