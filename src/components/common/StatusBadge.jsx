@@ -10,6 +10,7 @@ export default function StatusBadge({ status }) {
     pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
     failed: "bg-red-100 text-red-700 border-red-200",
     cancelled: "bg-red-50 text-red-600 border-red-100",
+    canceled: "bg-red-50 text-red-600 border-red-100",
     expired: "bg-slate-100 text-slate-500 border-slate-200",
   };
 

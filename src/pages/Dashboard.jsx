@@ -86,7 +86,7 @@ export default function Dashboard() {
       setShowSimulasi(false);
       const formattedAmount = `Rp ${parseInt(amount).toLocaleString()}`;
       
-      if (status === 'Success') {
+      if (status.toUpperCase() === 'SUCCESS') {
         showNotification("Pembayaran Berhasil", "success", `${formattedAmount} untuk ${mName} telah diterima.`);
       } else {
         showNotification("Pembayaran Gagal", "error", `Transaksi ${formattedAmount} untuk ${mName} ditolak.`);
